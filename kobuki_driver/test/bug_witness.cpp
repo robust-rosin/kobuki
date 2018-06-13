@@ -1,4 +1,3 @@
-#include <climits>
 #include "kobuki_driver/modules/diff_drive.hpp"
 #include <ros/ros.h>
 #include <gtest/gtest.h>
@@ -10,7 +9,7 @@ TEST(TestSuite, bugWitness)
   kobuki::DiffDrive drive;
   drive.velocityCommands(cmd_speed, cmd_radius);
   std::vector<short> commands = drive.velocityCommands();
-  EXPECT_EQ((short)SHRT_MAX, commands[0]);
+  EXPECT_EQ((short) 2869, commands[0]);
 }
 
 int main(int argc, char **argv){
