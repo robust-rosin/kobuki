@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import imp
 import os
 import sys
 import unittest
@@ -35,20 +36,25 @@ rospy.Publisher = MockPublisher
 ################################################################################
 
 class BugWitness(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        rospack = rospkg.RosPack()
+        pkg_path = rospack.get_path("kobuki_node")
+        scripts = os.path.join(pkg_path, "scripts")
+        cls.getYaw_py = imp.load_source("getYaw",
+                                os.path.join(scripts, "getYaw.py"))
+        cls.getOdom2D_py = imp.load_source("getOdom2D",
+                                os.path.join(scripts, "getOdom2D.py"))
+
     def test_get_yaw_script(self):
-        import getYaw
-        getYaw.Converter()
+        self.getYaw_py.Converter()
         self.assertTrue(True)
 
     def test_get_odom_2d_script(self):
-        import getOdom2D
-        getOdom2D.Converter()
+        self.getOdom2D_py.Converter()
         self.assertTrue(True)
 
 
 if __name__ == "__main__":
-    rospack = rospkg.RosPack()
-    pkg_path = rospack.get_path("kobuki_node")
-    sys.path.append(os.path.join(pkg_path, "scripts"))
     import rosunit
     rosunit.unitrun("kobuki_node", "bug_witness", BugWitness)
