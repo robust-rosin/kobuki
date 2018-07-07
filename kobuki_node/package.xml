@@ -76,6 +76,8 @@
 
   <!-- For Tests -->
   <run_depend>rospy</run_depend>
+
+  <test_depend>rosunit</test_depend>
   
   <export>
     <nodelet plugin="${prefix}/plugins/nodelet_plugins.xml" />

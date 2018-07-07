@@ -34,3 +34,5 @@ install(PROGRAMS scripts/getOdom2D.py
                  scripts/getYaw.py
         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+catkin_add_nosetests(test/bug_witness.py)
