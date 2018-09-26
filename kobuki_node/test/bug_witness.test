@@ -1,0 +1,4 @@
+<launch>
+  <test test-name="bug_witness" pkg="kobuki_node" type="bug_witness"
+    args="$(find kobuki_node)/launch/robot_with_tf.launch" />
+</launch>
