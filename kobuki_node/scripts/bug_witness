@@ -14,7 +14,7 @@ launch_file = None
 class TestBugWitness(unittest.TestCase):
     def test_bug_witness(self):
         tree = ET.parse(launch_file)
-        root = tree.root()
+        root = tree.getroot()
         for rosparam in root.iter("rosparam"):
             if "file" in rosparam.attrib:
                 result = re.search(PATTERN, rosparam.attrib["file"])
