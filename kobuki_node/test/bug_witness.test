@@ -1,0 +1,4 @@
+<launch>
+  <rosparam file="$(find kobuki_node)/param/base.yaml" command="load"/>
+  <test test-name="bug_witness" type="bug_witness" pkg="kobuki_node"/>
+</launch>
