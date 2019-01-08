@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+PKG = 'kobuki_node'
+
+import sys
+import unittest
+
+import rospy
+import rostest
+
+class BugWitness(unittest.TestCase):
+    def __init__(self, *args):
+        unittest.TestCase.__init__(self, *args)
+        rospy.init_node("bug_witness")
+
+    def test_b213df3(self):
+        try:
+            value = rospy.get_param("(see use_imu_heading description) (bool, default")
+            self.assertTrue(False) # not supposed to exist
+        except KeyError as e:
+            self.assertTrue(True)
+
+if __name__ == '__main__':
+    rostest.rosrun(PKG, 'test_b213df3', BugWitness)
