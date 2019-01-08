@@ -37,5 +37,5 @@ install(PROGRAMS scripts/getOdom2D.py
 
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
-  add_rostest(test/mytest.test)
+  add_rostest(test/bug_witness.test)
 endif()
