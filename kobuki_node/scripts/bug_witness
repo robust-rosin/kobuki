@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+PKG = "kobuki_node"
+
+import unittest
+import rosgraph
+import rostest
+
+try:
+    from xmlrpc.client import ServerProxy
+except ImportError:
+    from xmlrpclib import ServerProxy
+
+ID = "/bug_witness"
+
+
+class TestBugWitness(unittest.TestCase):
+    def test_bug_witness(self):
+        master = rosgraph.Master(ID)
+        uri = master.lookupNode("/mobile_base")
+        p = ServerProxy(uri)
+        code, msg, val = p.shutdown(ID, 'user request')
+        self.assertEqual(code, 1)
+
+
+if __name__ == '__main__':
+    rostest.rosrun(PKG, 'test_bug_witness', TestBugWitness)
