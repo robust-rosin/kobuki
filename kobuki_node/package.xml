@@ -43,7 +43,7 @@
 
   <!-- For Tests -->
   <build_depend>rospy</build_depend>
-
+  <build_depend>rostest</build_depend>
 
   <!-- ROS -->
   <run_depend>capabilities</run_depend>
