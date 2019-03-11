@@ -207,7 +207,7 @@ bool KobukiRos::init(ros::NodeHandle& nh)
    **********************/
   try
   {
-    kobuki.init(parameters);
+    //kobuki.init(parameters);
     ros::Duration(0.25).sleep(); // wait for some data to come in.
     if ( !kobuki.isAlive() ) {
       ROS_WARN_STREAM("Kobuki : no data stream, is kobuki turned on?");
@@ -252,46 +252,6 @@ bool KobukiRos::update()
     ROS_ERROR_STREAM("Kobuki : Driver has been shutdown. Stopping update loop. [" << name << "].");
     return false;
   }
-
-  if ( (kobuki.isEnabled() == true) && odometry.commandTimeout())
-  {
-    if ( !cmd_vel_timed_out_ )
-    {
-      kobuki.setBaseControl(0, 0);
-      cmd_vel_timed_out_ = true;
-      ROS_WARN("Kobuki : Incoming velocity commands not received for more than %.2f seconds -> zero'ing velocity commands", odometry.timeout().toSec());
-    }
-  }
-  else
-  {
-    cmd_vel_timed_out_ = false;
-  }
-
-  bool is_alive = kobuki.isAlive();
-  if ( watchdog_diagnostics.isAlive() && !is_alive )
-  {
-    if ( !serial_timed_out_ )
-    {
-      ROS_ERROR_STREAM("Kobuki : Timed out while waiting for serial data stream [" << name << "].");
-      serial_timed_out_ = true;
-    }
-    else
-    {
-      serial_timed_out_ = false;
-    }
-  }
-
-  watchdog_diagnostics.update(is_alive);
-  battery_diagnostics.update(kobuki.batteryStatus());
-  cliff_diagnostics.update(kobuki.getCoreSensorData().cliff, kobuki.getCliffData());
-  bumper_diagnostics.update(kobuki.getCoreSensorData().bumper);
-  wheel_diagnostics.update(kobuki.getCoreSensorData().wheel_drop);
-  motor_diagnostics.update(kobuki.getCurrentData().current);
-  state_diagnostics.update(kobuki.isEnabled());
-  gyro_diagnostics.update(kobuki.getInertiaData().angle);
-  dinput_diagnostics.update(kobuki.getGpInputData().digital_input);
-  ainput_diagnostics.update(kobuki.getGpInputData().analog_input);
-  updater.update();
 
   return true;
 }
